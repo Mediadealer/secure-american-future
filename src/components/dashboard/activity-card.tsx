@@ -16,6 +16,7 @@ import {
 interface ActivityCardProps {
   enabled?: boolean;
   isLoaded?: boolean;
+  firstName?: string;
 }
 
 interface FeedEvent {
@@ -38,15 +39,34 @@ function relativeTime(ts: number): string {
   return `${minutes}m ago`;
 }
 
-export function ActivityCard({ enabled = false, isLoaded = false }: ActivityCardProps) {
+export function ActivityCard({ enabled = false, isLoaded = false, firstName }: ActivityCardProps) {
   const [events, setEvents] = useState<FeedEvent[]>([]);
   const [, setTick] = useState(0);
   const nextId = useRef(0);
   const usedIndices = useRef<Set<number>>(new Set());
+  const eventCount = useRef(0);
 
   const addEvent = useCallback(() => {
     const messages = config.activityFeedMessages;
-    // Pick a message we haven't used recently
+    eventCount.current++;
+
+    // Every 4th event, insert a personalized message
+    if (firstName && eventCount.current % 4 === 0) {
+      const personalMessages = [
+        `New opportunity matched for ${firstName}`,
+        `Earnings update ready for ${firstName}`,
+        `${firstName}'s content link performance verified`,
+      ];
+      const msg = personalMessages[randomBetween(0, personalMessages.length - 1)];
+      const event: FeedEvent = {
+        id: nextId.current++,
+        message: msg,
+        timestamp: Date.now(),
+      };
+      setEvents((prev) => [event, ...prev].slice(0, 8));
+      return;
+    }
+
     let idx: number;
     if (usedIndices.current.size >= messages.length) {
       usedIndices.current.clear();
@@ -62,17 +82,12 @@ export function ActivityCard({ enabled = false, isLoaded = false }: ActivityCard
       timestamp: Date.now(),
     };
 
-    setEvents((prev) => {
-      const updated = [event, ...prev];
-      return updated.slice(0, 8);
-    });
-  }, []);
+    setEvents((prev) => [event, ...prev].slice(0, 8));
+  }, [firstName]);
 
-  // Timer to add events
   useEffect(() => {
     if (!enabled) return;
 
-    // Add first event after a short delay
     const firstTimer = setTimeout(() => {
       addEvent();
     }, 3000);
@@ -98,7 +113,6 @@ export function ActivityCard({ enabled = false, isLoaded = false }: ActivityCard
     };
   }, [enabled, addEvent]);
 
-  // Update relative timestamps every 10s
   useEffect(() => {
     if (events.length === 0) return;
     const interval = setInterval(() => setTick((t) => t + 1), 10000);
@@ -107,25 +121,24 @@ export function ActivityCard({ enabled = false, isLoaded = false }: ActivityCard
 
   return (
     <Card
-      className={`lg:col-span-2 transition-all duration-400 ${
+      className={`border-t-2 border-t-primary transition-all duration-400 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       }`}
     >
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-semibold">
+        <CardTitle className="text-sm font-serif font-bold">
           {config.ui.activityTitle}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {/* Live event feed */}
-        {events.map((event, i) => {
+        {events.map((event) => {
           const Icon = feedIcons[event.id % feedIcons.length];
           return (
             <div
               key={event.id}
-              className="flex items-center gap-3 p-3 bg-background rounded-lg animate-in fade-in slide-in-from-top-2 duration-300"
+              className="flex items-center gap-3 p-3 bg-secondary rounded-sm animate-in fade-in slide-in-from-top-2 duration-300"
             >
-              <div className="w-8 h-8 rounded-full bg-muted-foreground/20 flex items-center justify-center flex-shrink-0">
+              <div className="w-8 h-8 rounded-sm bg-muted-foreground/15 flex items-center justify-center flex-shrink-0">
                 <Icon className="w-4 h-4 text-muted-foreground" />
               </div>
               <span className="flex-1 text-sm">{event.message}</span>
@@ -136,13 +149,12 @@ export function ActivityCard({ enabled = false, isLoaded = false }: ActivityCard
           );
         })}
 
-        {/* Pinned action required entry */}
-        <div className="flex items-center gap-3 p-3 bg-primary/5 border border-primary/30 rounded-lg">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center gap-3 p-3 bg-primary/5 border border-primary/30 rounded-sm">
+          <div className="w-8 h-8 rounded-sm bg-primary/15 flex items-center justify-center flex-shrink-0">
             <Zap className="w-4 h-4 text-primary" />
           </div>
           <span className="flex-1 text-sm font-semibold text-primary">
-            Action required: Complete setup
+            {firstName ? `Action required: Complete ${firstName}'s setup` : 'Action required: Complete setup'}
           </span>
           <span className="text-xs text-muted-foreground">Now</span>
         </div>

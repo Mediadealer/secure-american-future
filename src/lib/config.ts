@@ -97,15 +97,41 @@ export const config = {
   // Engagement time trigger (ms after stats enabled)
   engagementTimeMs: 60000,
 
+  // Viewer count (engagement)
+  viewerCount: { min: 30, max: 65, intervalMs: 8000 },
+
+  // Slots remaining counter
+  slotsRemaining: { start: 23, decrementIntervalMs: 45000 },
+
+  // News ticker messages
+  tickerMessages: [
+    'BULLETIN: 3 Americans joined Secure American Future in the last hour',
+    'UPDATE: Available enrollment slots decreasing — {slots} of 100 remaining',
+    'NOTICE: This report may be removed without warning',
+    'REPORT: Members report first earnings within 14 days',
+  ],
+
+  // Testimonial popup messages
+  testimonialMessages: [
+    { name: 'Robert M.', state: 'Texas', quote: 'I wish I found this years ago.' },
+    { name: 'Linda S.', state: 'Florida', quote: 'Finally, something that actually works for retirement.' },
+    { name: 'James W.', state: 'Ohio', quote: 'My wife didn\'t believe me until she saw the numbers.' },
+    { name: 'Patricia K.', state: 'Arizona', quote: 'I was skeptical at first, but the results speak for themselves.' },
+    { name: 'Gary T.', state: 'North Carolina', quote: 'This changed everything for us.' },
+    { name: 'Barbara H.', state: 'Pennsylvania', quote: 'I tell all my friends about this.' },
+    { name: 'Donald R.', state: 'Michigan', quote: 'Best decision I made for my retirement.' },
+    { name: 'Susan C.', state: 'Georgia', quote: 'Simple to get started and the support is great.' },
+  ],
+
   // UI Text
   ui: {
-    appName: 'SecurePayouts',
+    appName: 'Secure American Future',
 
     // Name entry screen
-    welcomeTitle: 'Access Your Retirement Earnings.',
-    namePrompt: 'Enter your full name to view your earnings dashboard',
+    welcomeTitle: 'Your Retirement May Not Be Enough.',
+    namePrompt: 'Thousands of Americans over 50 are discovering a new income stream they were never told about. Enter your name to see if you qualify.',
     nameInputPlaceholder: 'Enter Your Full Name',
-    initButton: 'Access My Dashboard',
+    initButton: 'Check My Eligibility',
 
     // Dashboard
     accountTitle: 'Account Status',

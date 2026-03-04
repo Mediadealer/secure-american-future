@@ -23,7 +23,7 @@ export function fireClickMagickGoal(
   (window as any).clickmagick_cmc = {
     uid: 'YOUR_UID_HERE',
     hid: 'YOUR_HID_HERE',
-    cmc_project: 'secure payouts dashboard',
+    cmc_project: 'secure american future',
     cmc_goal: goal,
     ...(ref ? { cmc_ref: ref } : {}),
     vid_info: 'on',

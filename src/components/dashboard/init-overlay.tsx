@@ -12,6 +12,7 @@ interface InitOverlayProps {
   isComplete: boolean;
   completedSteps: boolean[];
   isVisible: boolean;
+  firstName?: string;
 }
 
 export function InitOverlay({
@@ -21,25 +22,34 @@ export function InitOverlay({
   status,
   completedSteps,
   isVisible,
+  firstName,
 }: InitOverlayProps) {
   if (!isVisible) return null;
+
+  // Personalize status text
+  const personalizedStatus = firstName
+    ? status.replace('Connecting to', `Connecting ${firstName} to`)
+             .replace('Loading retirement', `Loading ${firstName}'s retirement`)
+             .replace('Finalizing dashboard', `Preparing ${firstName}'s report`)
+    : status;
 
   return (
     <div className="fixed inset-0 bg-background/98 z-50 flex items-center justify-center transition-opacity duration-500">
       <div className="text-center max-w-md px-10">
-        {/* Spinner */}
-        <div className="w-16 h-16 border-3 border-border border-t-primary rounded-full animate-spin-slow mx-auto mb-6" />
+        {/* Loading bar */}
+        <div className="mb-6">
+          <Progress value={progress} className="h-1.5 bg-border" />
+        </div>
 
         {/* Title */}
-        <h2 className="text-2xl font-semibold mb-3">Initializing Dashboard</h2>
+        <h2 className="font-serif text-2xl font-bold mb-3 text-foreground">
+          {firstName ? `Initializing report for ${firstName}...` : 'Initializing Report...'}
+        </h2>
 
         {/* Status */}
-        <p className="text-muted-foreground mb-6 min-h-[24px]">{status}</p>
-
-        {/* Progress bar */}
-        <div className="mb-8">
-          <Progress value={progress} className="h-1 bg-border" />
-        </div>
+        <p className="font-serif italic text-muted-foreground mb-6 min-h-[24px] text-sm">
+          {personalizedStatus}
+        </p>
 
         {/* Steps */}
         <div className="text-left space-y-2">
@@ -65,7 +75,7 @@ export function InitOverlay({
                     <Circle className="w-4 h-4" />
                   )}
                 </span>
-                <span>{step.text.replace('...', '')}</span>
+                <span className="font-serif text-sm">{step.text.replace('...', '')}</span>
               </div>
             );
           })}

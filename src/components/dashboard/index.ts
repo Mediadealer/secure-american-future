@@ -6,3 +6,7 @@ export { AccountCard } from './account-card';
 export { ActivityCard } from './activity-card';
 export { ActivationCard } from './activation-card';
 export { VideoCard } from './video-card';
+export { ViewerCount } from './viewer-count';
+export { SlotsRemaining } from './slots-remaining';
+export { NewsTicker } from './news-ticker';
+export { TrustBadges } from './trust-badges';

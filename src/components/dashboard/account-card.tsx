@@ -12,23 +12,23 @@ interface AccountCardProps {
 export function AccountCard({ userName, isLoaded = false }: AccountCardProps) {
   return (
     <Card
-      className={`transition-all duration-400 ${
+      className={`border-t-2 border-t-primary transition-all duration-400 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       }`}
     >
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-semibold">
+        <CardTitle className="text-sm font-serif font-bold">
           {config.ui.accountTitle}
         </CardTitle>
-        <Badge variant="outline" className="bg-primary/15 text-primary border-0">
+        <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30 text-xs">
           {config.ui.statusActive}
         </Badge>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-4 mb-5">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-muted-foreground to-muted" />
+          <div className="w-12 h-12 rounded-sm bg-secondary border border-border" />
           <div>
-            <div className="font-semibold text-lg">{userName || 'New Affiliate'}</div>
+            <div className="font-serif font-bold text-lg">{userName || 'New Affiliate'}</div>
             <div className="text-sm text-muted-foreground font-mono">
               ID: #AFH-{new Date().getFullYear()}-XXXXX
             </div>

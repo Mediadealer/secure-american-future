@@ -1,35 +1,44 @@
 'use client';
 
 import { config } from '@/lib/config';
-import { Banknote } from 'lucide-react';
 
 interface TopBarProps {
   isConnected?: boolean;
 }
 
+function formatDate(): string {
+  const now = new Date();
+  return now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
 export function TopBar({ isConnected = false }: TopBarProps) {
   return (
-    <div className="flex justify-between items-center px-6 py-4 bg-card border-b border-border">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
-          <Banknote className="w-5 h-5 text-white" />
-        </div>
-        <span className="text-lg font-bold text-foreground">
+    <header className="bg-card border-b-2 border-border">
+      {/* Top thin rule */}
+      <div className="border-b border-border px-6 py-1.5 flex justify-between items-center text-xs text-muted-foreground">
+        <span>{formatDate()}</span>
+        <span className="tracking-widest uppercase font-semibold">
+          {isConnected ? 'Vol. I, No. 1' : 'Loading...'}
+        </span>
+      </div>
+
+      {/* Masthead */}
+      <div className="text-center py-4 px-6">
+        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-black tracking-[0.12em] uppercase text-primary leading-tight">
           {config.ui.appName}
-        </span>
+        </h1>
+        <div className="mt-1 text-xs tracking-[0.3em] uppercase text-accent font-bold">
+          Special Report &mdash; Exclusive Edition
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <span
-          className={`w-2.5 h-2.5 rounded-full ${
-            isConnected
-              ? 'bg-primary'
-              : 'bg-accent animate-pulse-slow'
-          }`}
-        />
-        <span className="text-sm text-muted-foreground">
-          {isConnected ? 'Connected' : 'Connecting...'}
-        </span>
-      </div>
-    </div>
+
+      {/* Bottom thin rule */}
+      <div className="border-t-2 border-border" />
+    </header>
   );
 }

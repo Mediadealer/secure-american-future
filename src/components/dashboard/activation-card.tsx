@@ -38,7 +38,6 @@ export function ActivationCard({
     e.preventDefault();
     setError('');
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('Please enter a valid email address');
@@ -46,11 +45,7 @@ export function ActivationCard({
     }
 
     setIsLoading(true);
-
-    // Fire ClickMagick "Engagement" goal — email registration
     trackRegistration();
-
-    // Get ClickMagick ID for conversion tracking
     const mcid = getClickMagickId();
 
     try {
@@ -84,33 +79,30 @@ export function ActivationCard({
 
   return (
     <Card
-      className={`col-span-full lg:col-span-2 border-2 transition-all duration-500 ${
+      className={`border-2 transition-all duration-500 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       } ${
         isHighlighted
-          ? 'border-primary shadow-lg shadow-primary/20 animate-pulse-slow'
+          ? 'border-accent shadow-lg shadow-accent/10 animate-pulse-slow'
           : 'border-primary'
       }`}
-      style={{
-        background: 'linear-gradient(135deg, #1a1f26 0%, #0f1419 100%)',
-      }}
     >
-      <CardHeader className="bg-primary/10 border-b border-primary/20">
+      <CardHeader className="bg-primary/5 border-b border-primary/20">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-semibold text-primary flex items-center gap-2">
+          <CardTitle className="text-sm font-serif font-bold text-primary flex items-center gap-2">
             <Zap className="w-4 h-4" />
-            {config.ui.activationTitle}
+            {firstName ? `Your earnings are ready, ${firstName}` : config.ui.activationTitle}
           </CardTitle>
           <Badge
             variant="outline"
-            className="bg-accent/15 text-accent border-0 animate-pulse-slow"
+            className="bg-accent/10 text-accent border-accent/30 animate-pulse-slow text-xs"
           >
             {config.ui.actionNeeded}
           </Badge>
         </div>
       </CardHeader>
       <CardContent className="pt-5">
-        <p className="text-muted-foreground mb-5 leading-relaxed">
+        <p className="text-muted-foreground mb-5 leading-relaxed text-sm">
           {config.ui.activationText}
         </p>
 
@@ -120,7 +112,7 @@ export function ActivationCard({
               type="text"
               value={userName}
               disabled
-              className="flex-1 bg-background border-2 border-border text-muted-foreground"
+              className="flex-1 bg-secondary border-2 border-border text-muted-foreground rounded-sm"
             />
             <Input
               type="email"
@@ -129,7 +121,7 @@ export function ActivationCard({
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="flex-1 bg-background border-2 border-border focus:border-primary"
+              className="flex-1 bg-background border-2 border-border focus:border-primary rounded-sm"
             />
           </div>
 
@@ -140,7 +132,7 @@ export function ActivationCard({
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full py-6 text-sm font-bold bg-primary hover:bg-primary/90 text-white"
+            className="w-full py-6 text-sm font-bold bg-primary hover:bg-primary/90 text-white rounded-sm"
           >
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />

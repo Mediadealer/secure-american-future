@@ -6,7 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -31,26 +32,26 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  /* Dark theme by default - matching dashboard.css */
-  --background: #0f1419;
-  --foreground: #e7e9ea;
-  --card: #1a1f26;
-  --card-foreground: #e7e9ea;
-  --popover: #1a1f26;
-  --popover-foreground: #e7e9ea;
-  --primary: #00d4aa;
-  --primary-foreground: #0f1419;
-  --secondary: #2f3842;
-  --secondary-foreground: #e7e9ea;
-  --muted: #2f3842;
-  --muted-foreground: #8b98a5;
-  --accent: #f59e0b;
-  --accent-foreground: #0f1419;
-  --destructive: #ef4444;
-  --border: #2f3842;
-  --input: #2f3842;
-  --ring: #00d4aa;
+  --radius: 0.25rem;
+  /* American Broadsheet / Newspaper theme */
+  --background: #faf8f0;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #1a3a5c;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ebe0;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f0ebe0;
+  --muted-foreground: #6b6b6b;
+  --accent: #8b0000;
+  --accent-foreground: #ffffff;
+  --destructive: #cc0000;
+  --border: #d4c5a9;
+  --input: #e8e0d0;
+  --ring: #1a3a5c;
 }
 
 @layer base {
@@ -59,14 +60,17 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-inter), 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
 /* Custom utility classes */
 @layer utilities {
   .text-muted-secondary {
-    color: #536471;
+    color: #6b6b6b;
+  }
+  .font-serif {
+    font-family: var(--font-playfair), Georgia, 'Times New Roman', serif;
   }
 }
 
@@ -90,7 +94,6 @@
 
 /* Conversion toast animation - slide in, linger, fly away */
 @keyframes slideLingerFly {
-  /* Slide in from left along bottom */
   0% {
     transform: translateX(-120vw) translateY(0) scale(0.95);
     opacity: 0;
@@ -99,12 +102,10 @@
     transform: translateX(0) translateY(0) scale(1);
     opacity: 1;
   }
-  /* Linger in bottom-right */
   70% {
     transform: translateX(0) translateY(0) scale(1);
     opacity: 1;
   }
-  /* Fly up and away */
   100% {
     transform: translateX(0) translateY(-100vh) scale(0.85);
     opacity: 0;
@@ -120,4 +121,196 @@
   .toast-fly-up {
     animation: none;
   }
+}
+
+/* ============================================
+   TV STATIC / GLITCH EFFECT
+   ============================================ */
+
+@keyframes staticNoise {
+  0% { background-position: 0 0; }
+  10% { background-position: -5% -10%; }
+  20% { background-position: -15% 5%; }
+  30% { background-position: 7% -25%; }
+  40% { background-position: -20% 25%; }
+  50% { background-position: -15% 10%; }
+  60% { background-position: 15% 0%; }
+  70% { background-position: 0% 15%; }
+  80% { background-position: 3% 35%; }
+  90% { background-position: -10% 10%; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes scanlines {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes chromaShift {
+  0% { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+  25% { text-shadow: 2px 0 #ff0000, -2px 0 #00ffff; }
+  50% { text-shadow: -1px 1px #ff0000, 1px -1px #00ffff; }
+  75% { text-shadow: 1px -1px #ff0000, -1px 1px #00ffff; }
+  100% { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  5% { opacity: 0.3; }
+  10% { opacity: 0.8; }
+  15% { opacity: 0.2; }
+  20% { opacity: 1; }
+  25% { opacity: 0.6; }
+  30% { opacity: 1; }
+  50% { opacity: 0.9; }
+  55% { opacity: 0.4; }
+  60% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-3px, 2px); }
+  20% { transform: translate(3px, -1px); }
+  30% { transform: translate(-2px, -3px); }
+  40% { transform: translate(2px, 3px); }
+  50% { transform: translate(-1px, 2px); }
+  60% { transform: translate(3px, -2px); }
+  70% { transform: translate(-3px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  90% { transform: translate(-2px, 3px); }
+}
+
+/* Phase 1: Subtle flicker */
+.glitch-flicker {
+  animation: flicker 0.4s ease-in-out infinite;
+}
+
+/* Phase 2: Full glitch — applies to page container */
+.glitch-full {
+  animation: screenShake 0.15s ease-in-out infinite;
+}
+
+.glitch-full * {
+  animation: chromaShift 0.3s ease-in-out infinite;
+}
+
+/* Static noise overlay */
+.glitch-static::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.05) 0px,
+      rgba(0,0,0,0.08) 1px,
+      rgba(255,255,255,0.05) 2px,
+      rgba(0,0,0,0.06) 3px
+    );
+  background-size: 4px 4px, 3px 3px;
+  animation: staticNoise 0.2s steps(10) infinite;
+}
+
+/* Scanline overlay */
+.glitch-static::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 0, 0, 0.05) 1px,
+    rgba(0, 0, 0, 0.05) 2px
+  );
+  animation: scanlines 3s linear infinite;
+}
+
+/* Phase 3: Blackout */
+.glitch-blackout {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #000;
+  pointer-events: none;
+}
+
+/* ============================================
+   NEWS TICKER
+   ============================================ */
+
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-scroll {
+  animation: tickerScroll 30s linear infinite;
+  white-space: nowrap;
+}
+
+/* ============================================
+   CONFIDENTIAL WATERMARK
+   ============================================ */
+
+.watermark-container::before {
+  content: 'AUTHORIZED VIEWER ONLY';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-size: 5rem;
+  font-weight: 900;
+  font-family: var(--font-playfair), Georgia, serif;
+  color: rgba(26, 26, 26, 0.035);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   NEWSPAPER DECORATIVE ELEMENTS
+   ============================================ */
+
+.newspaper-rule {
+  border-top: 1px solid #d4c5a9;
+}
+
+.newspaper-rule-double {
+  border-top: 3px double #d4c5a9;
+}
+
+.newspaper-section-label {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+}
+
+/* Pulse red for urgency */
+@keyframes pulseRed {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse-red {
+  animation: pulseRed 1.5s ease-in-out infinite;
+  color: #cc0000;
 }

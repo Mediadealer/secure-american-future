@@ -33,6 +33,7 @@ interface YTPlayer {
   playVideo: () => void;
   pauseVideo: () => void;
   getPlayerState: () => number;
+  getCurrentTime: () => number;
   destroy: () => void;
 }
 
@@ -40,6 +41,7 @@ export interface VideoCardRef {
   play: () => void;
   pause: () => void;
   toggle: () => void;
+  getCurrentTime: () => number;
 }
 
 interface VideoCardProps {
@@ -68,6 +70,9 @@ export const VideoCard = forwardRef<VideoCardRef, VideoCardProps>(
         } else {
           playerRef.current.playVideo();
         }
+      },
+      getCurrentTime: () => {
+        return playerRef.current?.getCurrentTime() ?? 0;
       },
     }));
 
@@ -138,7 +143,7 @@ export const VideoCard = forwardRef<VideoCardRef, VideoCardProps>(
 
     return (
       <Card
-        className={`col-span-full overflow-hidden rounded-none py-0 transition-all duration-500 ${
+        className={`col-span-full overflow-hidden rounded-sm py-0 border-2 border-border transition-all duration-500 ${
           isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       >

@@ -44,13 +44,13 @@ export function StatsCard({ enabled = false, isLoaded = false }: StatsCardProps)
 
   return (
     <Card
-      className={`lg:col-span-2 transition-all duration-400 ${
+      className={`border-t-2 border-t-primary transition-all duration-400 ${
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
       }`}
     >
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-semibold">Campaign Status</CardTitle>
-        <span className="text-xs text-primary animate-pulse-slow">● Live</span>
+        <CardTitle className="text-sm font-serif font-bold">Campaign Status</CardTitle>
+        <span className="text-xs text-primary font-semibold animate-pulse-slow">● Live</span>
       </CardHeader>
       <CardContent className="space-y-4">
         {config.campaignStatusSteps.map((step, i) => {
@@ -59,8 +59,8 @@ export function StatsCard({ enabled = false, isLoaded = false }: StatsCardProps)
           return (
             <div key={step.label} className="flex items-center gap-3">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
-                  done ? 'bg-primary/20' : 'bg-muted-foreground/20'
+                className={`w-8 h-8 rounded-sm flex items-center justify-center flex-shrink-0 transition-colors duration-500 ${
+                  done ? 'bg-primary/15' : 'bg-muted'
                 }`}
               >
                 <Icon
@@ -73,18 +73,18 @@ export function StatsCard({ enabled = false, isLoaded = false }: StatsCardProps)
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium">{step.label}</span>
                   <span
-                    className={`text-xs font-semibold px-2 py-0.5 rounded-full transition-colors duration-500 ${
+                    className={`text-xs font-semibold px-2 py-0.5 rounded-sm transition-colors duration-500 ${
                       done
-                        ? 'bg-primary/15 text-primary'
-                        : 'bg-accent/15 text-accent'
+                        ? 'bg-primary/10 text-primary'
+                        : 'bg-accent/10 text-accent'
                     }`}
                   >
                     {done ? step.completeText : step.activeText}
                   </span>
                 </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                <div className="h-2 bg-muted rounded-sm overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-colors duration-500 ${
+                    className={`h-full rounded-sm transition-colors duration-500 ${
                       done ? 'bg-primary' : 'bg-accent'
                     }`}
                     style={{ width: `${progress[i]}%`, transition: 'width 0.3s ease-out' }}
