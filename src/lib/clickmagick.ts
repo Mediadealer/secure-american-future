@@ -19,11 +19,10 @@ export function fireClickMagickGoal(
   if (typeof window === 'undefined') return;
 
   // Set the goal config
-  // TODO: Set ClickMagick uid and hid
   (window as any).clickmagick_cmc = {
-    uid: 'YOUR_UID_HERE',
-    hid: 'YOUR_HID_HERE',
-    cmc_project: 'secure american future',
+    uid: '17544',
+    hid: '1516531696',
+    cmc_project: 'secure-american-future',
     cmc_goal: goal,
     ...(ref ? { cmc_ref: ref } : {}),
     vid_info: 'on',

@@ -27,28 +27,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* TODO: Add ClickMagick tracking scripts */}
-        {/*
-        <Script
-          id="clickmagick-config"
-          strategy="beforeInteractive"
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.clickmagick_cmc = {
-                uid: 'YOUR_UID_HERE',
-                hid: 'YOUR_HID_HERE',
-                cmc_project: 'secure american future',
+                uid: '17544',
+                hid: '1516531696',
+                cmc_project: 'secure-american-future',
                 vid_info: 'on',
                 utm_source: 'organic',
               };
             `,
           }}
         />
-        <Script
-          src="//cdn.clkmc.com/cmc.js"
-          strategy="beforeInteractive"
-        />
-        */}
+        <script src="//cdn.clkmc.com/cmc.js" async />
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-background text-foreground`}>
         {children}

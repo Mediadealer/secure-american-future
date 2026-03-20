@@ -5,7 +5,7 @@
 
 export const config = {
   // YouTube
-  videoId: 'YzVGCJELw1k',
+  videoId: '03i4NStbcp4',
   playlistId: '',
 
   // URL parameters
@@ -13,7 +13,7 @@ export const config = {
 
   // Checkout URL (where users are redirected after email submission)
   // The tracking ID (tid) will be appended as ?sub1=tid
-  checkoutUrl: 'https://example.com/checkout', // TODO: Set checkout URL
+  checkoutUrl: 'https://www.gogop.site/cmp/3T6D48/8R3BW8/',
 
   // Dashboard initialization steps
   initSteps: [
